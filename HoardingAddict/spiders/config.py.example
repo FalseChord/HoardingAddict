@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# config version 1.1
+
+from itertools import chain
+
+'config'
+
+configs = [{
+    'type': 'generic',
+    'name': 'Spider name',
+    'ended': True,
+    'root': 'http://aaa.bb/ccc/',
+    'request': {
+        'protocol': 'GET',
+        'urls': ['http://aaa.bb/ccc/']
+    },
+    'rules': [{
+        'extractor': {
+            'canonicalize':False,
+            },
+        'callback': 'parsed_callback',
+    }]
+},{
+    'type': 'generic',
+    'name': 'Spider name 2',
+    'ended': True,
+    'root': 'http://xxx.yy/zzz',
+    'request': {
+        'protocol': 'GET',
+        'urls': [
+            'http://xxx.yy/zzz/1',
+            'http://xxx.yy/zzz/2',
+            'http://xxx.yy/zzz/3',
+            'http://xxx.yy/zzz/4',]
+    },
+    'rules': [{
+        'extractor': {
+            'canonicalize':False,
+            },
+        'callback': 'parsed_callback',
+    }]
+}]
+
+callbackConfig = {
+    'Spider name':{
+        'default':{
+            'target_dom':"//div[@id='254512_block_19']//a/@href",
+            'name_dom':"",
+            'follow':'1'
+        },'1':{
+            'target_dom':"//div[@class='user-area']//div[@id='content_block_1-body']//a[img]/@href",
+            'name_dom':"",
+            'follow':'2'
+        },'2':{
+            'target_dom':"//div[@id='page-body']//div[@class='user-area']/table//img/@src",
+            'name_dom':"//div[@class='title']/div[@class='inner']/h2/text()[1]",
+        }
+    },'Spider name 2':{
+        'default':{
+            'target_dom':"//div[@class='ie5']//tbody/tr/td[1]/a/@href",
+            'name_dom':"(//div[@class='ie5']//tbody/tr[./td[1]/a/img]/td[2][text()])/text()"
+        }
+    }
+}
